@@ -1,5 +1,5 @@
 <Solution>
-  <Project Path="ConsoleApp/ConsoleApp.csproj" />
-  <Project Path="Model/Model.csproj" />
+  <Project Path="ConsoleApp/ConsoleApp.csproj" Id="e89b3afd-ae25-430e-a7c4-f3db74dd7911" />
+  <Project Path="Model/Model.csproj" Id="4cdf526a-ca5e-4363-bd22-1255bdbb15b0" />
   <Project Path="WinForms/WinForms.csproj" />
 </Solution>
