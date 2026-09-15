@@ -29,88 +29,260 @@
         private void InitializeComponent()
         {
             listFigure = new ListView();
+            IdColumn = new ColumnHeader();
+            NameColumn = new ColumnHeader();
+            UniverseColumn = new ColumnHeader();
+            SeriesColumn = new ColumnHeader();
+            CharacterColumn = new ColumnHeader();
+            PriceColumn = new ColumnHeader();
             createButton = new Button();
-            deleteButton = new Button();
-            changeButton = new Button();
-            groupBySeriesButton = new Button();
-            showUniverse = new ComboBox();
+            DeleteButton = new Button();
+            ChangeButton = new Button();
+            SortBox = new ComboBox();
+            SortLabel = new Label();
+            SumCollection = new Label();
+            SumAllBox = new TextBox();
+            SumMarvelBox = new TextBox();
+            MarvelSumLabel = new Label();
+            SumDCBox = new TextBox();
+            DCSumLabel = new Label();
+            SumAnimeBox = new TextBox();
+            AnimeSumLabel = new Label();
+            SumGameBox = new TextBox();
+            GameSumLabel = new Label();
             SuspendLayout();
             // 
             // listFigure
             // 
+            listFigure.Activation = ItemActivation.OneClick;
+            listFigure.Columns.AddRange(new ColumnHeader[] { IdColumn, NameColumn, UniverseColumn, SeriesColumn, CharacterColumn, PriceColumn });
+            listFigure.FullRowSelect = true;
             listFigure.Location = new Point(23, 88);
-            listFigure.Name = "ListFigure";
-            listFigure.Size = new Size(518, 393);
+            listFigure.Name = "listFigure";
+            listFigure.Size = new Size(549, 314);
             listFigure.TabIndex = 0;
             listFigure.UseCompatibleStateImageBehavior = false;
+            listFigure.View = View.Details;
+            // 
+            // IdColumn
+            // 
+            IdColumn.Text = "Id";
+            IdColumn.Width = 30;
+            // 
+            // NameColumn
+            // 
+            NameColumn.Text = "Название";
+            NameColumn.TextAlign = HorizontalAlignment.Center;
+            NameColumn.Width = 125;
+            // 
+            // UniverseColumn
+            // 
+            UniverseColumn.Text = "Вселенная";
+            UniverseColumn.TextAlign = HorizontalAlignment.Center;
+            UniverseColumn.Width = 100;
+            // 
+            // SeriesColumn
+            // 
+            SeriesColumn.Text = "Серия";
+            SeriesColumn.TextAlign = HorizontalAlignment.Center;
+            SeriesColumn.Width = 125;
+            // 
+            // CharacterColumn
+            // 
+            CharacterColumn.Text = "Персонаж";
+            CharacterColumn.TextAlign = HorizontalAlignment.Center;
+            CharacterColumn.Width = 100;
+            // 
+            // PriceColumn
+            // 
+            PriceColumn.Text = "Цена";
+            PriceColumn.TextAlign = HorizontalAlignment.Center;
+            PriceColumn.Width = 65;
             // 
             // createButton
             // 
-            createButton.Location = new Point(595, 103);
-            createButton.Name = "CreateButton";
+            createButton.Location = new Point(601, 157);
+            createButton.Name = "createButton";
             createButton.Size = new Size(161, 46);
             createButton.TabIndex = 1;
             createButton.Text = "Создать Фигурку";
             createButton.UseVisualStyleBackColor = true;
+            createButton.Click += CreateButton_Click;
             // 
-            // deleteButton
+            // DeleteButton
             // 
-            deleteButton.Location = new Point(595, 180);
-            deleteButton.Name = "DeleteButton";
-            deleteButton.Size = new Size(161, 46);
-            deleteButton.TabIndex = 2;
-            deleteButton.Text = "Удалить Фигурку";
-            deleteButton.UseVisualStyleBackColor = true;
+            DeleteButton.Location = new Point(601, 234);
+            DeleteButton.Name = "DeleteButton";
+            DeleteButton.Size = new Size(161, 46);
+            DeleteButton.TabIndex = 2;
+            DeleteButton.Text = "Удалить Фигурку";
+            DeleteButton.UseVisualStyleBackColor = true;
+            DeleteButton.Click += DeleteButton_Click;
             // 
-            // changeButton
+            // ChangeButton
             // 
-            changeButton.Location = new Point(595, 253);
-            changeButton.Name = "ChangeButton";
-            changeButton.Size = new Size(161, 46);
-            changeButton.TabIndex = 3;
-            changeButton.Text = "Изменить Фигурку";
-            changeButton.UseVisualStyleBackColor = true;
+            ChangeButton.Location = new Point(601, 307);
+            ChangeButton.Name = "ChangeButton";
+            ChangeButton.Size = new Size(161, 46);
+            ChangeButton.TabIndex = 3;
+            ChangeButton.Text = "Изменить Фигурку";
+            ChangeButton.UseVisualStyleBackColor = true;
+            ChangeButton.Click += ChangeButton_Click;
             // 
-            // groupBySeriesButton
+            // SortBox
             // 
-            groupBySeriesButton.Location = new Point(595, 331);
-            groupBySeriesButton.Name = "GroupBySeriesButton";
-            groupBySeriesButton.Size = new Size(161, 46);
-            groupBySeriesButton.TabIndex = 4;
-            groupBySeriesButton.Text = "Сгруппировать по серии";
-            groupBySeriesButton.UseVisualStyleBackColor = true;
+            SortBox.DropDownStyle = ComboBoxStyle.DropDownList;
+            SortBox.FormattingEnabled = true;
+            SortBox.Location = new Point(62, 45);
+            SortBox.Name = "SortBox";
+            SortBox.Size = new Size(151, 28);
+            SortBox.TabIndex = 6;
+            SortBox.SelectedIndexChanged += SortBox_SelectedIndexChanged;
             // 
-            // showUniverse
+            // SortLabel
             // 
-            showUniverse.FormattingEnabled = true;
-            showUniverse.Location = new Point(595, 405);
-            showUniverse.Name = "ShowUniverse";
-            showUniverse.Size = new Size(151, 28);
-            showUniverse.TabIndex = 5;
+            SortLabel.AutoSize = true;
+            SortLabel.Location = new Point(62, 22);
+            SortLabel.Name = "SortLabel";
+            SortLabel.Size = new Size(140, 20);
+            SortLabel.TabIndex = 7;
+            SortLabel.Text = "Сгруппировать по:";
+            // 
+            // SumCollection
+            // 
+            SumCollection.AutoSize = true;
+            SumCollection.Location = new Point(23, 419);
+            SumCollection.Name = "SumCollection";
+            SumCollection.Size = new Size(239, 20);
+            SumCollection.TabIndex = 9;
+            SumCollection.Text = "Общая сумма вашей коллекции: ";
+            // 
+            // SumAllBox
+            // 
+            SumAllBox.Location = new Point(268, 419);
+            SumAllBox.Name = "SumAllBox";
+            SumAllBox.ReadOnly = true;
+            SumAllBox.Size = new Size(125, 27);
+            SumAllBox.TabIndex = 10;
+            // 
+            // SumMarvelBox
+            // 
+            SumMarvelBox.Location = new Point(143, 459);
+            SumMarvelBox.Name = "SumMarvelBox";
+            SumMarvelBox.ReadOnly = true;
+            SumMarvelBox.Size = new Size(125, 27);
+            SumMarvelBox.TabIndex = 12;
+            // 
+            // MarvelSumLabel
+            // 
+            MarvelSumLabel.AutoSize = true;
+            MarvelSumLabel.Location = new Point(20, 459);
+            MarvelSumLabel.Name = "MarvelSumLabel";
+            MarvelSumLabel.Size = new Size(117, 20);
+            MarvelSumLabel.TabIndex = 11;
+            MarvelSumLabel.Text = "Marvel-фигурки";
+            // 
+            // SumDCBox
+            // 
+            SumDCBox.Location = new Point(406, 462);
+            SumDCBox.Name = "SumDCBox";
+            SumDCBox.ReadOnly = true;
+            SumDCBox.Size = new Size(125, 27);
+            SumDCBox.TabIndex = 14;
+            // 
+            // DCSumLabel
+            // 
+            DCSumLabel.AutoSize = true;
+            DCSumLabel.Location = new Point(283, 462);
+            DCSumLabel.Name = "DCSumLabel";
+            DCSumLabel.Size = new Size(92, 20);
+            DCSumLabel.TabIndex = 13;
+            DCSumLabel.Text = "DC-фигурки";
+            // 
+            // SumAnimeBox
+            // 
+            SumAnimeBox.Location = new Point(146, 499);
+            SumAnimeBox.Name = "SumAnimeBox";
+            SumAnimeBox.ReadOnly = true;
+            SumAnimeBox.Size = new Size(125, 27);
+            SumAnimeBox.TabIndex = 16;
+            // 
+            // AnimeSumLabel
+            // 
+            AnimeSumLabel.AutoSize = true;
+            AnimeSumLabel.Location = new Point(23, 499);
+            AnimeSumLabel.Name = "AnimeSumLabel";
+            AnimeSumLabel.Size = new Size(115, 20);
+            AnimeSumLabel.TabIndex = 15;
+            AnimeSumLabel.Text = "Anime-фигурки";
+            // 
+            // SumGameBox
+            // 
+            SumGameBox.Location = new Point(406, 496);
+            SumGameBox.Name = "SumGameBox";
+            SumGameBox.ReadOnly = true;
+            SumGameBox.Size = new Size(125, 27);
+            SumGameBox.TabIndex = 18;
+            // 
+            // GameSumLabel
+            // 
+            GameSumLabel.AutoSize = true;
+            GameSumLabel.Location = new Point(283, 499);
+            GameSumLabel.Name = "GameSumLabel";
+            GameSumLabel.Size = new Size(111, 20);
+            GameSumLabel.TabIndex = 17;
+            GameSumLabel.Text = "Game-фигурки";
             // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 528);
-            Controls.Add(showUniverse);
-            Controls.Add(groupBySeriesButton);
-            Controls.Add(changeButton);
-            Controls.Add(deleteButton);
+            Controls.Add(SumGameBox);
+            Controls.Add(GameSumLabel);
+            Controls.Add(SumAnimeBox);
+            Controls.Add(AnimeSumLabel);
+            Controls.Add(SumDCBox);
+            Controls.Add(DCSumLabel);
+            Controls.Add(SumMarvelBox);
+            Controls.Add(MarvelSumLabel);
+            Controls.Add(SumAllBox);
+            Controls.Add(SumCollection);
+            Controls.Add(SortLabel);
+            Controls.Add(SortBox);
+            Controls.Add(ChangeButton);
+            Controls.Add(DeleteButton);
             Controls.Add(createButton);
             Controls.Add(listFigure);
             Name = "MainForm";
             Text = "mainForm";
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
 
         private ListView listFigure;
         private Button createButton;
-        private Button deleteButton;
-        private Button changeButton;
-        private Button groupBySeriesButton;
-        private ComboBox showUniverse;
+        private Button DeleteButton;
+        private Button ChangeButton;
+        private ColumnHeader IdColumn;
+        private ColumnHeader NameColumn;
+        private ColumnHeader UniverseColumn;
+        private ColumnHeader SeriesColumn;
+        private ColumnHeader CharacterColumn;
+        private ColumnHeader PriceColumn;
+        private ComboBox SortBox;
+        private Label SortLabel;
+        private Label SumCollection;
+        private TextBox SumAllBox;
+        private TextBox SumMarvelBox;
+        private Label MarvelSumLabel;
+        private TextBox SumDCBox;
+        private Label DCSumLabel;
+        private TextBox SumAnimeBox;
+        private Label AnimeSumLabel;
+        private TextBox SumGameBox;
+        private Label GameSumLabel;
     }
 }
