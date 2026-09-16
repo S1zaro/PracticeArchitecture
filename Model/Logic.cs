@@ -102,7 +102,7 @@ namespace Model
             {
                 throw new ArgumentOutOfRangeException();
             }
-            if (newName!= null)
+            if (newName != null)
             {
                 figureUpdate.Name = newName;
             }
@@ -128,11 +128,11 @@ namespace Model
         /// <summary>
         /// Метод группирующий фигурки по значению
         /// </summary>
-        /// <param name="sortName">значение группировки</param>
+        /// <param name="groupValue">значение группировки</param>
         /// <returns>Словарь с группами</returns>
-        public Dictionary<string,List<Figure>> GroupFigure(string sortName)
+        public Dictionary<string,List<Figure>> GroupFigure(string groupValue)
         {
-            if (sortName == "Серия")
+            if (groupValue == "Серия")
             {
                 return Figures.GroupBy(i => i.Series).OrderBy(g => g.Key).ToDictionary(k => k.Key, k => k.ToList());
             }
