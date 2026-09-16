@@ -58,12 +58,7 @@ namespace ConsoleApp
             Console.WriteLine("Создание новой фигурки:");
             Console.Write("Впишите название фигурки:");
             string name = Console.ReadLine();
-            while (!logic.ReadFigures().All(i => i.Name != name))
-            {
-                Console.WriteLine("Имя уже занятно");
-                Console.Write("Введите название:");
-                name = Console.ReadLine();
-            }
+            
             Console.WriteLine("Выберите вселенную:");
             for(int i = 1; i < logic.ReadUniverse().Length; i++)
             {
@@ -110,14 +105,36 @@ namespace ConsoleApp
             string character = Console.ReadLine();
             Console.Write("Введите цену фигурки: ");
             string price = Console.ReadLine();
-            while (!decimal.TryParse(price, out decimal decimalPrice) || decimalPrice < 0)
+            bool errorFlag = false;
+            while (!errorFlag)
             {
-                Console.WriteLine("Цена введена неправильно!");
-                Console.Write("Введите цену: ");
-                price = Console.ReadLine();
+                try
+                {
+                    decimal priceFigure = decimal.Parse(price);
+                    logic.FigureAdd(name, universe, series, character, priceFigure);
+                    errorFlag = true;
+                }
+                catch (ArgumentOutOfRangeException)
+                {
+                    Console.WriteLine("Цена должна быть положительной!");
+                    Console.Write("Введите цену: ");
+                    price = Console.ReadLine();
+
+                }
+                catch (FormatException)
+                {
+                    Console.WriteLine("Цена введена неправильно!");
+                    Console.Write("Введите цену: ");
+                    price = Console.ReadLine();
+                }
+                catch (ArgumentException)
+                {
+                    Console.WriteLine("Данное название уже занятно");
+                    Console.Write("Введите название:");
+                    name = Console.ReadLine();
+                }
+                
             }
-            decimal priceFigure = decimal.Parse(price);
-            logic.FigureAdd(name, universe, series, character, priceFigure);
             return;
         }
 
@@ -125,7 +142,7 @@ namespace ConsoleApp
         private static void DeleteFigure()
         {
             Console.Clear();
-            Console.WriteLine("Выберите номер фигурки на удаление:");
+            Console.WriteLine("Выберите Id фигурки на удаление:");
             ShowAllFigure("Сброс");
             Console.Write("Ваш выбор: ");
             string num = Console.ReadLine();
@@ -255,14 +272,28 @@ namespace ConsoleApp
                     case "5":
                         Console.Write("Введите новую цену фигурки: ");
                         string newPrice = Console.ReadLine();
-                        while (!decimal.TryParse(newPrice, out decimal decimalPrice) || decimalPrice < 0)
+                        while (true)
                         {
-                            Console.WriteLine("Цена введена неправильно!");
-                            Console.Write("Введите новую цену: ");
-                            newPrice = Console.ReadLine();
+                            try
+                            {
+                                decimal newPriceFigure = decimal.Parse(newPrice);
+                                logic.FigureUpdate(figure.Id,null,null,null,null,newPriceFigure);
+                                break;
+                            }
+                            catch (ArgumentOutOfRangeException)
+                            {
+                                Console.WriteLine("Цена должна быть положительной!");
+                                Console.Write("Введите цену: ");
+                                newPrice = Console.ReadLine();
+
+                            }
+                            catch (FormatException)
+                            {
+                                Console.WriteLine("Цена введена неправильно!");
+                                Console.Write("Введите цену: ");
+                                newPrice = Console.ReadLine();
+                            }
                         }
-                        decimal newPriceFigure = decimal.Parse(newPrice);
-                        logic.FigureUpdate(figure.Id, null, null, null, null, newPriceFigure);
                         break;
                     case "0":
                         flag = false;
