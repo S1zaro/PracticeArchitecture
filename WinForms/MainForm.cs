@@ -8,7 +8,7 @@ namespace WinForms
         public MainForm()
         {
             InitializeComponent();
-            SortBox.Items.AddRange(logic.ReadSortList());
+            SortBox.Items.AddRange(logic.ReadGroupList());
             SortBox.SelectedItem = SortBox.Items[0];
             UpdateMainForm();
         }

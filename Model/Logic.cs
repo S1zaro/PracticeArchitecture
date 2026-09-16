@@ -10,7 +10,7 @@ namespace Model
     {
         private List<Figure> Figures = new List<Figure>();
         private string[] GroupUniverseList = new string[] { "All", "Marvel", "DC", "Anime", "Game" };
-        private string[] SortSeriesList = new string[] {"", "Серия", "Персонаж" };
+        private string[] GroupList = new string[] {"", "Серия", "Персонаж" };
         
 
         /// <summary>
@@ -23,14 +23,23 @@ namespace Model
             
         }
 
+
+        /// <summary>
+        /// Метод возвращающий список доступных вселенных
+        /// </summary>
+        /// <returns>список вселенных</returns>
         public string[] ReadUniverse()
         {
             return GroupUniverseList;
         }
 
-        public string[] ReadSortList()
+        /// <summary>
+        /// Метод возвращающий список ключей по которым можно группировать фигурки
+        /// </summary>
+        /// <returns>список названий ключей</returns>
+        public string[] ReadGroupList()
         {
-            return SortSeriesList;
+            return GroupList;
         }
 
         /// <summary>
@@ -140,6 +149,10 @@ namespace Model
             }
         }
 
+        /// <summary>
+        /// Метод рассчитывающий стоимость коллекции фигурок
+        /// </summary>
+        /// <returns>словарь с стоимостью фигурок по вселенным</returns>
         public Dictionary<string, decimal> SumCollectionFigure()
         {
             return Figures.GroupBy(i => i.Universe).ToDictionary(k => k.Key, k => k.Sum(s => s.Price));
