@@ -41,7 +41,6 @@ namespace Model
         /// <param name="series">Серия фигурки</param>
         /// <param name="character">Имя персонажа-фигурки</param>
         /// <param name="price">Цена</param>
-        /// <returns>флаг ошибки</returns>
         public void FigureAdd(string name, string universe, string series, string character, decimal price)
         {;
             if (Figures.All(figure => figure.Name != name))
@@ -68,17 +67,16 @@ namespace Model
         /// <summary>
         /// Метод удаления фигурки
         /// </summary>
-        /// <param name="number">порядковый номер фигурки в списке</param>
-        /// <returns>флаг ошибки</returns>
-        public bool FigureRemove(int number)
+        /// <param name="number">Id фигурки</param>
+        public void FigureRemove(int number)
         {
-            if (Figures[number] != null) {
-                Figures.Remove(Figures[number]);
-                return false;
+            Figure figureToRemove = Figures.Find(i => i.Id == number);
+            if (figureToRemove != null) {
+                Figures.Remove(figureToRemove);
             }
             else
             {
-                return true;
+                throw new ArgumentException();
             }
         }
 

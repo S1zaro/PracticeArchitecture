@@ -61,6 +61,7 @@ namespace WinForms
                     item.SubItems.Add(figure.Series);
                     item.SubItems.Add(figure.Character);
                     item.SubItems.Add(figure.Price.ToString() + "$");
+                    item.Tag = figure;
                     listFigure.Items.Add(item);
                 }
             }
@@ -77,6 +78,7 @@ namespace WinForms
                         item.SubItems.Add(v.Series);
                         item.SubItems.Add(v.Character);
                         item.SubItems.Add(v.Price.ToString() + "$");
+                        item.Tag = v;
                         listFigure.Items.Add(item);
                     }
                 }
@@ -93,14 +95,17 @@ namespace WinForms
 
         private void DeleteButton_Click(object sender, EventArgs e)
         {
-            if (listFigure.SelectedItems.Count == 0)
+            try
             {
-                MessageBox.Show("Сначала выберите фигурки для удаления");
+                var item = listFigure.SelectedItems[0].Tag;
+                if (item is Figure figure)
+                {
+                    logic.FigureRemove(figure.Id);
+                }
             }
-            else
+            catch (ArgumentException)
             {
-                ListViewItem item = listFigure.SelectedItems[0];
-                logic.FigureRemove(item.Index);
+                MessageBox.Show("Фигурки с данным Id не существует или вы не выбрали фигурку");
             }
             UpdateMainForm();
         }

@@ -129,13 +129,27 @@ namespace ConsoleApp
             ShowAllFigure("Сброс");
             Console.Write("Ваш выбор: ");
             string num = Console.ReadLine();
-            while (!int.TryParse(num, out int numInt) ||int.Parse(num) < 0 || int.Parse(num) > logic.ReadFigures().Count)
+            bool flag = true;
+            while (flag)
             {
-                Console.WriteLine("Фигурки с данным номером не найдено");
-                Console.Write("Ваш выбор: ");
-                num = Console.ReadLine();
+                try
+                {
+                    logic.FigureRemove(int.Parse(num));
+                    flag = false;
+                }
+                catch (ArgumentException)
+                {
+                    Console.WriteLine("Фигурки с данным Id не существует");
+                    Console.Write("Ваш выбор: ");
+                    num = Console.ReadLine();
+                }
+                catch (FormatException)
+                {
+                    Console.WriteLine("Фигурки с данным Id не существует");
+                    Console.Write("Ваш выбор: ");
+                    num = Console.ReadLine();
+                }
             }
-            logic.FigureRemove(int.Parse(num)-1);
             return;
         }
 
