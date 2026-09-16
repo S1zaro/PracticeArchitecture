@@ -362,7 +362,17 @@ namespace ConsoleApp
                         AddFigure();
                         break;
                     case "2":
-                        UpdateFigure();
+                        if (logic.ReadFigures().Count == 0)
+                        {
+                            Console.Clear();
+                            Console.WriteLine("У вас нет фигурок");
+                            Thread.Sleep(2000);
+                            break;
+                        }
+                        else 
+                        {
+                            UpdateFigure();
+                        }
                         break;
                     case "3":
                         if (logic.ReadFigures().Count == 0)
