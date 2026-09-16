@@ -131,9 +131,6 @@ namespace WinForms
             UpdateMainForm();
         }
 
-        private void UniverseBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            UpdateMainForm();
-        }
+        
     }
 }

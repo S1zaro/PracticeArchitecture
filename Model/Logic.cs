@@ -135,7 +135,7 @@ namespace Model
         /// <summary>
         /// Метод группирующий фигурки по значению
         /// </summary>
-        /// <param name="groupValue">значение группировки</param>
+        /// <param name="groupValue">параметр группировки</param>
         /// <returns>Словарь с группами</returns>
         public Dictionary<string,List<Figure>> GroupFigure(string groupValue)
         {

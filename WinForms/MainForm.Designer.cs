@@ -237,7 +237,8 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 528);
+            BackColor = SystemColors.Control;
+            ClientSize = new Size(800, 559);
             Controls.Add(SumGameBox);
             Controls.Add(GameSumLabel);
             Controls.Add(SumAnimeBox);

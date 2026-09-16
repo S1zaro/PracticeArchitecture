@@ -14,6 +14,10 @@ namespace ConsoleApp
     {
         public static Logic logic = new Logic();
 
+        /// <summary>
+        /// Выводит список фигурок в консоль
+        /// </summary>
+        /// <param name="gropText">параметр группировки фигурок</param>
         private static void ShowAllFigure(string gropText)
         {
             if (gropText == "Сброс")
@@ -36,6 +40,10 @@ namespace ConsoleApp
                 }
             }
         }
+        /// <summary>
+        /// Выводит главное меню в консоль
+        /// </summary>
+        /// <param name="groupText">параметр группировки фигурок</param>
         private static void Menu(string groupText)
         {
             Console.Clear();
@@ -52,7 +60,9 @@ namespace ConsoleApp
             Console.WriteLine("[0] Выйти");
             Console.Write("Ваш выбор: ");
         }
-        private static void AddFigure()
+        
+
+        private static void AddFigureMenu()
         {
             Console.Clear();
             Console.WriteLine("Создание новой фигурки:");
@@ -139,7 +149,7 @@ namespace ConsoleApp
         }
 
 
-        private static void DeleteFigure()
+        private static void DeleteFigureMenu()
         {
             Console.Clear();
             Console.WriteLine("Выберите Id фигурки на удаление:");
@@ -170,14 +180,14 @@ namespace ConsoleApp
             return;
         }
 
-        private static void UpdateFigure()
+        private static void UpdateFigureMenu()
         {
             Console.Clear();
             Console.WriteLine("Выберите фигурку для изменения");
             ShowAllFigure("Сброс");
             Console.Write("Ваш выбор: ");
             string num = Console.ReadLine();
-            while (!int.TryParse(num, out int numInt) || int.Parse(num) < 0 || int.Parse(num) > logic.ReadFigures().Count)
+            while (!int.TryParse(num, out int numInt) || int.Parse(num) <= 0 || int.Parse(num) > logic.ReadFigures().Count)
             {
                 Console.WriteLine("Фигурки с данным номером не найдено");
                 Console.Write("Ваш выбор: ");
@@ -304,7 +314,7 @@ namespace ConsoleApp
             return;
         }
 
-        private static void AllSumCollection()
+        private static void AllSumCollectionMenu()
         {
             Console.Clear();
             Dictionary<string, decimal> sumList = logic.SumCollectionFigure();
@@ -359,7 +369,7 @@ namespace ConsoleApp
                 switch (answer)
                 {
                     case "1":
-                        AddFigure();
+                        AddFigureMenu();
                         break;
                     case "2":
                         if (logic.ReadFigures().Count == 0)
@@ -371,7 +381,7 @@ namespace ConsoleApp
                         }
                         else 
                         {
-                            UpdateFigure();
+                            UpdateFigureMenu();
                         }
                         break;
                     case "3":
@@ -384,11 +394,11 @@ namespace ConsoleApp
                         }
                         else
                         {
-                            DeleteFigure();
+                            DeleteFigureMenu();
                         }
                         break;
                     case "4":
-                        AllSumCollection();
+                        AllSumCollectionMenu();
                         break;
                     case "q":
                         groupValue = "Серия";
