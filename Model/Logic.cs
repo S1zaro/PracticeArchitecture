@@ -139,13 +139,14 @@ namespace Model
         /// <returns>Словарь с группами</returns>
         public Dictionary<string,List<Figure>> GroupFigure(string groupValue)
         {
-            if (groupValue == "Серия")
+            switch (groupValue) 
             {
-                return Figures.GroupBy(i => i.Series).OrderBy(g => g.Key).ToDictionary(k => k.Key, k => k.ToList());
-            }
-            else
-            {
-                return Figures.GroupBy(i => i.Character).OrderBy(g => g.Key).ToDictionary(k => k.Key, k => k.ToList());
+                case "Серия":
+                    return Figures.GroupBy(i => i.Series).OrderBy(g => g.Key).ToDictionary(k => k.Key, k => k.ToList());
+                case "Персонаж":
+                    return Figures.GroupBy(i => i.Character).OrderBy(g => g.Key).ToDictionary(k => k.Key, k => k.ToList());
+                default:
+                    throw new ArgumentException();
             }
         }
 

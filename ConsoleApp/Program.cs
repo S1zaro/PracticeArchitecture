@@ -40,6 +40,8 @@ namespace ConsoleApp
                 }
             }
         }
+
+
         /// <summary>
         /// Выводит главное меню в консоль
         /// </summary>
@@ -49,9 +51,24 @@ namespace ConsoleApp
             Console.Clear();
             Console.WriteLine("Приложение с коллекционными фигурками");
             Console.WriteLine("=====================================");
-            Console.WriteLine("Сгруппировать фигурки: [Q]по серии, [W]по персонажам, [E]Сброс");
+            Console.WriteLine();
+            Console.Write("Сгруппировать фигурки: ");
+            if (groupText == "Серия")
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+            }
+            Console.Write("[Q]по серии ");
+            Console.ResetColor();
+            if (groupText == "Персонаж")
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+            }
+            Console.Write("[W]по персонажам ");
+            Console.ResetColor();
+            Console.WriteLine("[E]Сброс");
             Console.WriteLine("Ваши фигурки:");
             ShowAllFigure($"{groupText}");
+            Console.WriteLine();
             Console.WriteLine("=====================================");
             Console.WriteLine("[1] Добавить фигурку");
             Console.WriteLine("[2] Изменить фигурку");
@@ -187,7 +204,7 @@ namespace ConsoleApp
             ShowAllFigure("Сброс");
             Console.Write("Ваш выбор: ");
             string num = Console.ReadLine();
-            while (!int.TryParse(num, out int numInt) || int.Parse(num) <= 0 || int.Parse(num) > logic.ReadFigures().Count)
+            while (!int.TryParse(num, out int numInt) || numInt <= 0 || numInt > logic.ReadFigures().Count)
             {
                 Console.WriteLine("Фигурки с данным номером не найдено");
                 Console.Write("Ваш выбор: ");

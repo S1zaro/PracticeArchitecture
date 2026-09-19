@@ -53,6 +53,7 @@ namespace WinForms
             listFigure.Items.Clear();
             if (SortBox.Text == "")
             {
+                listFigure.Groups.Clear();
                 foreach (var figure in logic.ReadFigures())
                 {
                     ListViewItem item = new ListViewItem(figure.Id.ToString());
@@ -70,6 +71,8 @@ namespace WinForms
                 Dictionary<string, List<Figure>> list = logic.GroupFigure(SortBox.Text);
                 foreach (var k in list)
                 {
+                    var listgroup = new ListViewGroup($"{SortBox.Text}: {k.Key}");
+                    listFigure.Groups.Add(listgroup);
                     foreach (var v in k.Value)
                     {
                         ListViewItem item = new ListViewItem(v.Id.ToString());
@@ -79,6 +82,7 @@ namespace WinForms
                         item.SubItems.Add(v.Character);
                         item.SubItems.Add(v.Price.ToString() + "$");
                         item.Tag = v;
+                        item.Group = listgroup;
                         listFigure.Items.Add(item);
                     }
                 }
@@ -97,10 +101,13 @@ namespace WinForms
         {
             try
             {
-                var item = listFigure.SelectedItems[0].Tag;
-                if (item is Figure figure)
+                for (int i = 0; i < listFigure.SelectedItems.Count;i++)
                 {
-                    logic.FigureRemove(figure.Id);
+                    var item = listFigure.SelectedItems[i].Tag;
+                    if (item is Figure figure)
+                    {
+                        logic.FigureRemove(figure.Id);
+                    }
                 }
             }
             catch (ArgumentException)
