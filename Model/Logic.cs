@@ -175,7 +175,7 @@ namespace Model
 
         public bool UpgradeFigure(int id, decimal coef)
         {
-            if ((decimal)rnd.NextDouble() <= (decimal)0.9/coef) {
+            if ((decimal)rnd.NextDouble() <= (decimal)0.85/coef) {
                 FigureUpdate(Figures[id].Id, null, null, null, null, Figures[id].Price * coef);
                 return true;
             }

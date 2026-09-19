@@ -39,6 +39,7 @@
             UpgradeButton = new Button();
             label1 = new Label();
             PriceUpBox = new TextBox();
+            ChanceBar = new ProgressBar();
             ((System.ComponentModel.ISupportInitialize)CoefBox).BeginInit();
             SuspendLayout();
             // 
@@ -130,11 +131,20 @@
             PriceUpBox.Size = new Size(176, 27);
             PriceUpBox.TabIndex = 5;
             // 
+            // ChanceBar
+            // 
+            ChanceBar.Location = new Point(82, 38);
+            ChanceBar.Name = "ChanceBar";
+            ChanceBar.Size = new Size(483, 30);
+            ChanceBar.Step = 1;
+            ChanceBar.TabIndex = 6;
+            // 
             // UpgradeForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(643, 571);
+            Controls.Add(ChanceBar);
             Controls.Add(PriceUpBox);
             Controls.Add(label1);
             Controls.Add(UpgradeButton);
@@ -160,5 +170,6 @@
         private Button UpgradeButton;
         private Label label1;
         private TextBox PriceUpBox;
+        private ProgressBar ChanceBar;
     }
 }

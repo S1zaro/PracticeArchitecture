@@ -28,11 +28,15 @@ namespace WinForms
                 item.Tag = figure;
                 ListUpgradeFigure.Items.Add(item);
             }
+            decimal chance = (decimal)0.85 / CoefBox.Value * 100;
+            ChanceBar.Value = (int)chance;
         }
 
 
         private void CoefBox_ValueChanged(object sender, EventArgs e)
         {
+            decimal chance = (decimal)0.85 / CoefBox.Value * 100;
+            ChanceBar.Value = (int)chance;
             if (ListUpgradeFigure.SelectedItems.Count > 0)
             {
                 var item = ListUpgradeFigure.SelectedItems[0].Tag;

@@ -51,7 +51,7 @@ namespace ConsoleApp
             Console.Clear();
             Console.WriteLine("Приложение с коллекционными фигурками");
             Console.WriteLine("=====================================");
-            Console.WriteLine();
+            Console.WriteLine($"Ваш баланс - {logic.ReadBalance()}$");
             Console.Write("Сгруппировать фигурки: ");
             if (groupText == "Серия")
             {
@@ -74,6 +74,7 @@ namespace ConsoleApp
             Console.WriteLine("[2] Изменить фигурку");
             Console.WriteLine("[3] Удалить фигурку");
             Console.WriteLine("[4] Стоимость вашей коллекции");
+            Console.WriteLine("[5] Улучшить фигурку");
             Console.WriteLine("[0] Выйти");
             Console.Write("Ваш выбор: ");
         }
@@ -130,14 +131,13 @@ namespace ConsoleApp
             string series = Console.ReadLine();
             Console.Write("Напишите персонажа фигурки: ");
             string character = Console.ReadLine();
-            Console.Write("Введите цену фигурки: ");
-            string price = Console.ReadLine();
             bool errorFlag = false;
             while (!errorFlag)
             {
                 try
                 {
                     logic.FigureAdd(name, universe, series, character);
+                    logic.ChangeBalance(-logic.ReadFigures().Last().Price);
                     errorFlag = true;
                 }
                 catch (ArgumentException)
@@ -164,6 +164,7 @@ namespace ConsoleApp
             {
                 try
                 {
+                    logic.ChangeBalance(logic.ReadFigures()[int.Parse(num) - 1].Price);
                     logic.FigureRemove(int.Parse(num));
                     flag = false;
                 }
@@ -180,6 +181,7 @@ namespace ConsoleApp
                     num = Console.ReadLine();
                 }
             }
+            
             return;
         }
 
@@ -208,7 +210,6 @@ namespace ConsoleApp
                 Console.WriteLine("[2]Вселенная");
                 Console.WriteLine("[3]Серия");
                 Console.WriteLine("[4]Персонаж");
-                Console.WriteLine("[5]Цена");
                 Console.WriteLine("[0]Выход");
                 Console.Write("Ваш выбор: ");
                 string ans = Console.ReadLine();
@@ -282,32 +283,6 @@ namespace ConsoleApp
                         string newCharacter = Console.ReadLine();
                         logic.FigureUpdate(figure.Id, null, null, null, newCharacter, 0);
                         break;
-                    case "5":
-                        Console.Write("Введите новую цену фигурки: ");
-                        string newPrice = Console.ReadLine();
-                        while (true)
-                        {
-                            try
-                            {
-                                decimal newPriceFigure = decimal.Parse(newPrice);
-                                logic.FigureUpdate(figure.Id,null,null,null,null,newPriceFigure);
-                                break;
-                            }
-                            catch (ArgumentOutOfRangeException)
-                            {
-                                Console.WriteLine("Цена должна быть положительной!");
-                                Console.Write("Введите цену: ");
-                                newPrice = Console.ReadLine();
-
-                            }
-                            catch (FormatException)
-                            {
-                                Console.WriteLine("Цена введена неправильно!");
-                                Console.Write("Введите цену: ");
-                                newPrice = Console.ReadLine();
-                            }
-                        }
-                        break;
                     case "0":
                         flag = false;
                         break;
@@ -361,6 +336,79 @@ namespace ConsoleApp
                 return;
             }
         }
+        
+        private static void UpgradeFigureMenu()
+        {
+            Console.Clear();
+            Console.WriteLine("Выберите фигурку для улучшения");
+            ShowAllFigure("Сброс");
+            Console.Write("Ваш выбор: ");
+            string num = Console.ReadLine();
+            while (!int.TryParse(num, out int numInt) || numInt <= 0 || numInt > logic.ReadFigures().Count)
+            {
+                Console.WriteLine("Фигурки с данным номером не найдено");
+                Console.Write("Ваш выбор: ");
+                num = Console.ReadLine();
+            }
+            Figure figure = logic.ReadFigures()[int.Parse(num)-1];
+            Console.WriteLine();
+            Console.Clear();
+            double coef = 1.5;
+            double chance = 0.85 / coef * 100;
+            Console.WriteLine("[W] - увеличить");
+            Console.WriteLine("[S] - уменьшить");
+            Console.WriteLine("Enter - потдвердить");
+            Console.WriteLine($"Множитель - {coef}x");
+            Console.WriteLine($"Шанс - {(int)chance}%");
+            Console.WriteLine($"Цена фигурки: {figure.Price} -> {figure.Price * (decimal)coef}");
+            ConsoleKey key = Console.ReadKey(true).Key;
+            while (key != ConsoleKey.Enter)
+            {
+                switch (key)
+                {
+                    case ConsoleKey.S:
+                        coef -= 0.1;
+                        if (coef <= 1.4)
+                        {
+                            coef = 2.5;
+                        }
+                        break;
+                    case ConsoleKey.W:
+                        coef += 0.1;
+                        if (coef >= 2.6)
+                        {
+                            coef = 1.5;
+                        }
+                        break;
+                    default:
+                        break;
+                }
+                chance = 0.85 / coef * 100;
+                Console.Clear();
+                Console.WriteLine("[W] - увеличить");
+                Console.WriteLine("[S] - уменьшить");
+                Console.WriteLine("Enter - потдвердить");
+                Console.WriteLine($"Множитель - {coef}x");
+                Console.WriteLine($"Шанс - {((int)chance)}%");
+                Console.WriteLine($"Цена фигурки: {figure.Price} -> {figure.Price * (decimal)coef}");
+                key = Console.ReadKey(true).Key;
+            }
+            Console.Clear();
+
+            bool flagUpgrade = logic.UpgradeFigure(int.Parse(num)-1, (decimal)coef);
+            if (flagUpgrade)
+            {
+                Console.WriteLine("Улучшение прошло успешно!");
+            }
+            else
+            {
+                Console.WriteLine("Улучшение провалено(((");
+            }
+            Thread.Sleep(2000);
+            return;
+            
+        }
+        
         static void Main(string[] args)
         {
             bool exit = false;
@@ -402,6 +450,19 @@ namespace ConsoleApp
                         break;
                     case "4":
                         AllSumCollectionMenu();
+                        break;
+                    case "5":
+                        if (logic.ReadFigures().Count == 0)
+                        {
+                            Console.Clear();
+                            Console.WriteLine("У вас нет фигурок");
+                            Thread.Sleep(2000);
+                            break;
+                        }
+                        else
+                        {
+                            UpgradeFigureMenu();
+                        }
                         break;
                     case "q":
                         groupValue = "Серия";
