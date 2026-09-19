@@ -16,10 +16,11 @@ namespace WinForms
 
         private void UpdateMainForm()
         {
+            BalanceBox.Text = logic.ReadBalance().ToString() + "$";
             Dictionary<string, decimal> sumList = logic.SumCollectionFigure();
             if (sumList.ContainsKey("Marvel"))
             {
-                SumMarvelBox.Text = sumList["Marvel"].ToString()+"$";
+                SumMarvelBox.Text = sumList["Marvel"].ToString() + "$";
             }
             else
             {
@@ -49,7 +50,7 @@ namespace WinForms
             {
                 SumGameBox.Text = "0$";
             }
-            SumAllBox.Text = sumList.Sum(i => i.Value).ToString()+"$";
+            SumAllBox.Text = sumList.Sum(i => i.Value).ToString() + "$";
             listFigure.Items.Clear();
             if (SortBox.Text == "")
             {
@@ -91,9 +92,16 @@ namespace WinForms
         }
         private void CreateButton_Click(object sender, EventArgs e)
         {
-            AddForm form = new AddForm(logic);
-            form.ShowDialog();
-            UpdateMainForm();
+            if (logic.ReadBalance() == 0)
+            {
+                MessageBox.Show("У вас не осталось денег на покупку фигурок");
+            }
+            else
+            {
+                AddForm form = new AddForm(logic);
+                form.ShowDialog();
+                UpdateMainForm();
+            }
 
         }
 
@@ -101,12 +109,13 @@ namespace WinForms
         {
             try
             {
-                for (int i = 0; i < listFigure.SelectedItems.Count;i++)
+                for (int i = 0; i < listFigure.SelectedItems.Count; i++)
                 {
                     var item = listFigure.SelectedItems[i].Tag;
                     if (item is Figure figure)
                     {
                         logic.FigureRemove(figure.Id);
+                        logic.ChangeBalance(figure.Price);
                     }
                 }
             }
@@ -138,6 +147,18 @@ namespace WinForms
             UpdateMainForm();
         }
 
-        
+        private void UpgradeButton_Click(object sender, EventArgs e)
+        {
+            if (logic.ReadFigures().Count == 0)
+            {
+                MessageBox.Show("У вас нет фигурок");
+            }
+            else
+            {
+                UpgradeForm form = new UpgradeForm(logic);
+                form.ShowDialog();
+                UpdateMainForm();
+            }
+        }
     }
 }

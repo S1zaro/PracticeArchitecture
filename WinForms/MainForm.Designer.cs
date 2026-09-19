@@ -50,6 +50,9 @@
             AnimeSumLabel = new Label();
             SumGameBox = new TextBox();
             GameSumLabel = new Label();
+            BalanceBox = new TextBox();
+            BalanceLabel = new Label();
+            UpgradeButton = new Button();
             SuspendLayout();
             // 
             // listFigure
@@ -101,7 +104,7 @@
             // 
             // createButton
             // 
-            createButton.Location = new Point(601, 157);
+            createButton.Location = new Point(603, 103);
             createButton.Name = "createButton";
             createButton.Size = new Size(161, 46);
             createButton.TabIndex = 1;
@@ -111,7 +114,7 @@
             // 
             // DeleteButton
             // 
-            DeleteButton.Location = new Point(601, 234);
+            DeleteButton.Location = new Point(603, 180);
             DeleteButton.Name = "DeleteButton";
             DeleteButton.Size = new Size(161, 46);
             DeleteButton.TabIndex = 2;
@@ -121,7 +124,7 @@
             // 
             // ChangeButton
             // 
-            ChangeButton.Location = new Point(601, 307);
+            ChangeButton.Location = new Point(603, 253);
             ChangeButton.Name = "ChangeButton";
             ChangeButton.Size = new Size(161, 46);
             ChangeButton.TabIndex = 3;
@@ -233,12 +236,42 @@
             GameSumLabel.TabIndex = 17;
             GameSumLabel.Text = "Game-фигурки";
             // 
+            // BalanceBox
+            // 
+            BalanceBox.Location = new Point(652, 9);
+            BalanceBox.Name = "BalanceBox";
+            BalanceBox.ReadOnly = true;
+            BalanceBox.Size = new Size(125, 27);
+            BalanceBox.TabIndex = 20;
+            // 
+            // BalanceLabel
+            // 
+            BalanceLabel.AutoSize = true;
+            BalanceLabel.Location = new Point(585, 12);
+            BalanceLabel.Name = "BalanceLabel";
+            BalanceLabel.Size = new Size(61, 20);
+            BalanceLabel.TabIndex = 19;
+            BalanceLabel.Text = "Баланс:";
+            // 
+            // UpgradeButton
+            // 
+            UpgradeButton.Location = new Point(603, 329);
+            UpgradeButton.Name = "UpgradeButton";
+            UpgradeButton.Size = new Size(161, 46);
+            UpgradeButton.TabIndex = 21;
+            UpgradeButton.Text = "Улучшить фигурку";
+            UpgradeButton.UseVisualStyleBackColor = true;
+            UpgradeButton.Click += UpgradeButton_Click;
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.Control;
             ClientSize = new Size(800, 559);
+            Controls.Add(UpgradeButton);
+            Controls.Add(BalanceBox);
+            Controls.Add(BalanceLabel);
             Controls.Add(SumGameBox);
             Controls.Add(GameSumLabel);
             Controls.Add(SumAnimeBox);
@@ -285,5 +318,8 @@
         private Label AnimeSumLabel;
         private TextBox SumGameBox;
         private Label GameSumLabel;
+        private TextBox BalanceBox;
+        private Label BalanceLabel;
+        private Button UpgradeButton;
     }
 }

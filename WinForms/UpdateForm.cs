@@ -21,7 +21,6 @@ namespace WinForms
             NameBox.Text = FigureToUpadte.Name;
             CharacterBox.Text = FigureToUpadte.Character;
             SeriesBox.Text = FigureToUpadte.Series;
-            PriceBox.Text = FigureToUpadte.Price.ToString();
             UniverseBox.Text = FigureToUpadte.Universe;
             UniverseBox.Items.AddRange(logic.ReadUniverse().Skip(1).ToArray());
             UniverseBox.SelectedItem = UniverseBox.Text;
@@ -29,32 +28,20 @@ namespace WinForms
 
         private void SaveButton_Click(object sender, EventArgs e)
         {
-            if (NameBox.Text == "" || UniverseBox.Text == "" || CharacterBox.Text == "" || SeriesBox.Text == "" || PriceBox.Text == "")
+            if (NameBox.Text == "" || UniverseBox.Text == "" || CharacterBox.Text == "" || SeriesBox.Text == "")
             {
                 MessageBox.Show("Для изменения фигурки нужно заполнить все поля");
             }
             else
             {
-                if (decimal.TryParse(PriceBox.Text, out decimal price))
+                try
                 {
-
-                    try
-                    {
-                        logic.FigureUpdate(FigureToUpadte.Id, NameBox.Text, UniverseBox.Text, SeriesBox.Text, CharacterBox.Text, price);
-                        this.Close();
-                    }
-                    catch (ArgumentOutOfRangeException)
-                    {
-                        MessageBox.Show("Число должно быть положительным");
-                    }
-                    catch(ArgumentException)
-                    {
-                        MessageBox.Show("Данное название фигурки уже существует, введите другое");
-                    }
+                    logic.FigureUpdate(FigureToUpadte.Id, NameBox.Text, UniverseBox.Text, SeriesBox.Text, CharacterBox.Text, FigureToUpadte.Price);
+                    this.Close();
                 }
-                else
+                catch (ArgumentException)
                 {
-                    MessageBox.Show("Неккоректное значение в поле Цена, введите число");
+                    MessageBox.Show("Данное название фигурки уже существует, введите другое");
                 }
 
             }

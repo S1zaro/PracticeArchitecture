@@ -137,22 +137,8 @@ namespace ConsoleApp
             {
                 try
                 {
-                    decimal priceFigure = decimal.Parse(price);
-                    logic.FigureAdd(name, universe, series, character, priceFigure);
+                    logic.FigureAdd(name, universe, series, character);
                     errorFlag = true;
-                }
-                catch (ArgumentOutOfRangeException)
-                {
-                    Console.WriteLine("Цена должна быть положительной!");
-                    Console.Write("Введите цену: ");
-                    price = Console.ReadLine();
-
-                }
-                catch (FormatException)
-                {
-                    Console.WriteLine("Цена введена неправильно!");
-                    Console.Write("Введите цену: ");
-                    price = Console.ReadLine();
                 }
                 catch (ArgumentException)
                 {

@@ -11,7 +11,9 @@ namespace Model
         private List<Figure> Figures = new List<Figure>();
         private string[] GroupUniverseList = new string[] { "All", "Marvel", "DC", "Anime", "Game" };
         private string[] GroupList = new string[] {"", "Серия", "Персонаж" };
-        
+
+        private static Random rnd = new Random();
+        private decimal Balance = 1000;
 
         /// <summary>
         /// Метод возращающий список всех фигурок
@@ -23,6 +25,14 @@ namespace Model
             
         }
 
+        /// <summary>
+        /// Метод возращающий баланс пользователя
+        /// </summary>
+        /// <returns>баланс</returns>
+        public decimal ReadBalance()
+        {
+            return Balance;
+        }
 
         /// <summary>
         /// Метод возвращающий список доступных вселенных
@@ -42,6 +52,11 @@ namespace Model
             return GroupList;
         }
 
+        public void ChangeBalance(decimal value)
+        {
+            Balance += value;
+        }
+
         /// <summary>
         /// Метод добавления новых фигурок
         /// </summary>
@@ -50,22 +65,21 @@ namespace Model
         /// <param name="series">Серия фигурки</param>
         /// <param name="character">Имя персонажа-фигурки</param>
         /// <param name="price">Цена</param>
-        public void FigureAdd(string name, string universe, string series, string character, decimal price)
-        {;
+        public void FigureAdd(string name, string universe, string series, string character)
+        {
+            decimal price = rnd.Next(1, (int)Balance+1);
             if (Figures.All(figure => figure.Name != name))
             {
-                if (price < 0)
-                {
-                    throw new ArgumentOutOfRangeException();
-                }
                 if (Figures.Count == 0)
                 {
                     Figures.Add(new Figure(1, name, universe, series, character, price));
+                    
 
                 }
                 else
                 {
                     Figures.Add(new Figure(Figures.Max(i => i.Id) + 1, name, universe, series, character, price));
+                    
                 }
                 
             }
@@ -157,6 +171,19 @@ namespace Model
         public Dictionary<string, decimal> SumCollectionFigure()
         {
             return Figures.GroupBy(i => i.Universe).ToDictionary(k => k.Key, k => k.Sum(s => s.Price));
+        }
+
+        public bool UpgradeFigure(int id, decimal coef)
+        {
+            if ((decimal)rnd.NextDouble() <= (decimal)0.9/coef) {
+                FigureUpdate(Figures[id].Id, null, null, null, null, Figures[id].Price * coef);
+                return true;
+            }
+            else
+            {
+                FigureRemove(id+1);
+                return false;
+            }
         }
     }
 }

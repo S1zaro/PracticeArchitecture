@@ -23,33 +23,22 @@ namespace WinForms
 
         private void CreateButton_Click(object sender, EventArgs e)
         {
-            if (NameBox.Text == "" || UniverseBox.Text == "" || CharacterBox.Text == "" || SeriesBox.Text == "" || PriceBox.Text == "")
+            if (NameBox.Text == "" || UniverseBox.Text == "" || CharacterBox.Text == "" || SeriesBox.Text == "")
             {
                 MessageBox.Show("Для создания фигурки нужно заполнить все поля");
             }
             else
             {
-                if (decimal.TryParse(PriceBox.Text, out decimal price))
+                try
                 {
-                    try
-                    {
-                        logic.FigureAdd(NameBox.Text, UniverseBox.Text, SeriesBox.Text, CharacterBox.Text, price);
-                        this.Close();
-
-                    }
-                    catch (ArgumentOutOfRangeException)
-                    {
-                        MessageBox.Show("Число должно быть положительным");
-                    }
-                    catch (ArgumentException)
-                    {
-                        MessageBox.Show("Имя занято");
-                    }
+                    logic.FigureAdd(NameBox.Text, UniverseBox.Text, SeriesBox.Text, CharacterBox.Text);
+                    logic.ChangeBalance(-logic.ReadFigures().Last().Price);
+                    this.Close();
 
                 }
-                else
+                catch (ArgumentException)
                 {
-                    MessageBox.Show("Неккоректное значение в поле Цена, введите число");
+                    MessageBox.Show("Имя занято");
                 }
 
             }

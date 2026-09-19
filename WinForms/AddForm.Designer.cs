@@ -32,10 +32,8 @@
             UniverseLabel = new Label();
             CharacterLabel = new Label();
             SeriesLabel = new Label();
-            PriceLabel = new Label();
             NameBox = new TextBox();
             SeriesBox = new TextBox();
-            PriceBox = new TextBox();
             CharacterBox = new TextBox();
             UniverseBox = new ComboBox();
             CreateButton = new Button();
@@ -44,7 +42,7 @@
             // NameLabel
             // 
             NameLabel.AutoSize = true;
-            NameLabel.Location = new Point(237, 47);
+            NameLabel.Location = new Point(167, 110);
             NameLabel.Name = "NameLabel";
             NameLabel.Size = new Size(39, 20);
             NameLabel.TabIndex = 0;
@@ -53,7 +51,7 @@
             // UniverseLabel
             // 
             UniverseLabel.AutoSize = true;
-            UniverseLabel.Location = new Point(297, 211);
+            UniverseLabel.Location = new Point(306, 199);
             UniverseLabel.Name = "UniverseLabel";
             UniverseLabel.Size = new Size(83, 20);
             UniverseLabel.TabIndex = 1;
@@ -62,7 +60,7 @@
             // CharacterLabel
             // 
             CharacterLabel.AutoSize = true;
-            CharacterLabel.Location = new Point(376, 47);
+            CharacterLabel.Location = new Point(306, 110);
             CharacterLabel.Name = "CharacterLabel";
             CharacterLabel.Size = new Size(81, 20);
             CharacterLabel.TabIndex = 2;
@@ -71,45 +69,29 @@
             // SeriesLabel
             // 
             SeriesLabel.AutoSize = true;
-            SeriesLabel.Location = new Point(230, 136);
+            SeriesLabel.Location = new Point(160, 199);
             SeriesLabel.Name = "SeriesLabel";
             SeriesLabel.Size = new Size(52, 20);
             SeriesLabel.TabIndex = 3;
             SeriesLabel.Text = "Серия";
             // 
-            // PriceLabel
-            // 
-            PriceLabel.AutoSize = true;
-            PriceLabel.Location = new Point(396, 136);
-            PriceLabel.Name = "PriceLabel";
-            PriceLabel.Size = new Size(45, 20);
-            PriceLabel.TabIndex = 5;
-            PriceLabel.Text = "Цена";
-            // 
             // NameBox
             // 
-            NameBox.Location = new Point(195, 83);
+            NameBox.Location = new Point(125, 146);
             NameBox.Name = "NameBox";
             NameBox.Size = new Size(125, 27);
             NameBox.TabIndex = 6;
             // 
             // SeriesBox
             // 
-            SeriesBox.Location = new Point(195, 159);
+            SeriesBox.Location = new Point(125, 222);
             SeriesBox.Name = "SeriesBox";
             SeriesBox.Size = new Size(125, 27);
             SeriesBox.TabIndex = 7;
             // 
-            // PriceBox
-            // 
-            PriceBox.Location = new Point(355, 159);
-            PriceBox.Name = "PriceBox";
-            PriceBox.Size = new Size(125, 27);
-            PriceBox.TabIndex = 10;
-            // 
             // CharacterBox
             // 
-            CharacterBox.Location = new Point(355, 83);
+            CharacterBox.Location = new Point(285, 146);
             CharacterBox.Name = "CharacterBox";
             CharacterBox.Size = new Size(125, 27);
             CharacterBox.TabIndex = 11;
@@ -118,14 +100,14 @@
             // 
             UniverseBox.DropDownStyle = ComboBoxStyle.DropDownList;
             UniverseBox.FormattingEnabled = true;
-            UniverseBox.Location = new Point(265, 234);
+            UniverseBox.Location = new Point(274, 222);
             UniverseBox.Name = "UniverseBox";
             UniverseBox.Size = new Size(151, 28);
             UniverseBox.TabIndex = 12;
             // 
             // CreateButton
             // 
-            CreateButton.Location = new Point(283, 332);
+            CreateButton.Location = new Point(211, 288);
             CreateButton.Name = "CreateButton";
             CreateButton.Size = new Size(94, 29);
             CreateButton.TabIndex = 13;
@@ -141,10 +123,8 @@
             Controls.Add(CreateButton);
             Controls.Add(UniverseBox);
             Controls.Add(CharacterBox);
-            Controls.Add(PriceBox);
             Controls.Add(SeriesBox);
             Controls.Add(NameBox);
-            Controls.Add(PriceLabel);
             Controls.Add(SeriesLabel);
             Controls.Add(CharacterLabel);
             Controls.Add(UniverseLabel);
@@ -161,10 +141,8 @@
         private Label UniverseLabel;
         private Label CharacterLabel;
         private Label SeriesLabel;
-        private Label PriceLabel;
         private TextBox NameBox;
         private TextBox SeriesBox;
-        private TextBox PriceBox;
         private TextBox CharacterBox;
         private ComboBox UniverseBox;
         private Button CreateButton;
