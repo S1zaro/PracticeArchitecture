@@ -58,14 +58,22 @@ namespace WinForms
 
         private void UpgradeButton_Click(object sender, EventArgs e)
         {
-            bool flag = logic.UpgradeFigure(ListUpgradeFigure.SelectedItems[0].Index, CoefBox.Value);
-            if (flag)
+            var item = ListUpgradeFigure.SelectedItems[0].Tag;
+            if (item is Figure figure)
             {
-                MessageBox.Show("Улучшение прошло успешно!");
+                bool flag = logic.UpgradeFigure(figure.Id, CoefBox.Value);
+                if (flag)
+                {
+                    MessageBox.Show("Улучшение прошло успешно!");
+                }
+                else
+                {
+                    MessageBox.Show("Улучшение провалено(((");
+                }
             }
             else
             {
-                MessageBox.Show("Улучшение провалено(((");
+                MessageBox.Show("Данной фигурки не найдено");
             }
             this.Close();
         }

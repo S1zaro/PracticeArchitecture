@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.Design;
 using System.Linq;
 using System.Reflection;
+using System.Security.Authentication;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -86,7 +87,11 @@ namespace ConsoleApp
             Console.WriteLine("Создание новой фигурки:");
             Console.Write("Впишите название фигурки:");
             string name = Console.ReadLine();
-            
+            while (name == "")
+            {
+                Console.Write("Впишите название фигурки:");
+                name = Console.ReadLine();
+            }
             Console.WriteLine("Выберите вселенную:");
             for(int i = 1; i < logic.ReadUniverse().Length; i++)
             {
@@ -129,8 +134,19 @@ namespace ConsoleApp
             
             Console.Write("Напишите серию фигурки: ");
             string series = Console.ReadLine();
+            while (series == "")
+            {
+                Console.Write("Напишите серию фигурки: ");
+                series = Console.ReadLine();
+
+            }
             Console.Write("Напишите персонажа фигурки: ");
             string character = Console.ReadLine();
+            while (character == "")
+            {
+                Console.Write("Напишите персонажа фигурки: ");
+                character = Console.ReadLine();
+            }
             bool errorFlag = false;
             while (!errorFlag)
             {
@@ -164,8 +180,16 @@ namespace ConsoleApp
             {
                 try
                 {
-                    logic.ChangeBalance(logic.ReadFigures()[int.Parse(num) - 1].Price);
-                    logic.FigureRemove(int.Parse(num));
+                    Figure figure = logic.ReadFigures().Find(i => i.Id == int.Parse(num));
+                    while (figure == null)
+                    {
+                        Console.WriteLine("Фигурки с данным Id не существует");
+                        Console.Write("Ваш выбор: ");
+                        num = Console.ReadLine();
+                        figure = logic.ReadFigures().Find(i => i.Id == int.Parse(num));
+                    }
+                    logic.ChangeBalance(figure.Price);
+                    logic.FigureRemove(figure.Id);
                     flag = false;
                 }
                 catch (ArgumentException)
@@ -180,6 +204,7 @@ namespace ConsoleApp
                     Console.Write("Ваш выбор: ");
                     num = Console.ReadLine();
                 }
+                
             }
             
             return;
@@ -192,7 +217,7 @@ namespace ConsoleApp
             ShowAllFigure("Сброс");
             Console.Write("Ваш выбор: ");
             string num = Console.ReadLine();
-            while (!int.TryParse(num, out int numInt) || numInt <= 0 || numInt > logic.ReadFigures().Count)
+            while (!int.TryParse(num, out int numInt) || logic.ReadFigures().Find(i => i.Id == numInt) == null)
             {
                 Console.WriteLine("Фигурки с данным номером не найдено");
                 Console.Write("Ваш выбор: ");
@@ -203,7 +228,7 @@ namespace ConsoleApp
             while (flag)
             {
                 Console.Clear();
-                Figure figure = logic.ReadFigures()[int.Parse(num) - 1];
+                Figure figure = logic.ReadFigures().Find(i => i.Id == int.Parse(num));
                 Console.WriteLine($"Ваша фигурка - Название - {figure.Name}, Вселенная - {figure.Universe}, Серия - {figure.Series}, Персонаж - {figure.Character}, Цена - {figure.Price}");
                 Console.WriteLine("Что вы хотите изменить?");
                 Console.WriteLine("[1]Название");
@@ -222,6 +247,11 @@ namespace ConsoleApp
                             {
                                 Console.Write("Введите новое название: ");
                                 string newName = Console.ReadLine();
+                                while (newName == "")
+                                {
+                                    Console.Write("Введите новое название: ");
+                                    newName = Console.ReadLine();
+                                }
                                 logic.FigureUpdate(figure.Id, newName, null, null, null, 0);
                                 break;
                             }
@@ -276,11 +306,21 @@ namespace ConsoleApp
                     case "3":
                         Console.Write("Напишите новую серию фигурки: ");
                         string newSeries = Console.ReadLine();
+                        while (newSeries == "")
+                        {
+                            Console.Write("Напишите новую серию фигурки: ");
+                            newSeries = Console.ReadLine();
+                        }
                         logic.FigureUpdate(figure.Id, null, null, newSeries, null, 0);
                         break;
                     case "4":
                         Console.Write("Напишите нового персонажа фигурки: ");
                         string newCharacter = Console.ReadLine();
+                        while (newCharacter == "")
+                        {
+                            Console.Write("Напишите нового персонажа фигурки: ");
+                            newCharacter = Console.ReadLine();
+                        }
                         logic.FigureUpdate(figure.Id, null, null, null, newCharacter, 0);
                         break;
                     case "0":
@@ -344,13 +384,13 @@ namespace ConsoleApp
             ShowAllFigure("Сброс");
             Console.Write("Ваш выбор: ");
             string num = Console.ReadLine();
-            while (!int.TryParse(num, out int numInt) || numInt <= 0 || numInt > logic.ReadFigures().Count)
+            while (!int.TryParse(num, out int numInt) || logic.ReadFigures().Find(i => i.Id == numInt) == null)
             {
                 Console.WriteLine("Фигурки с данным номером не найдено");
                 Console.Write("Ваш выбор: ");
                 num = Console.ReadLine();
             }
-            Figure figure = logic.ReadFigures()[int.Parse(num)-1];
+            Figure figure = logic.ReadFigures().Find(i => i.Id == int.Parse(num));
             Console.WriteLine();
             Console.Clear();
             double coef = 1.5;
@@ -395,7 +435,7 @@ namespace ConsoleApp
             }
             Console.Clear();
 
-            bool flagUpgrade = logic.UpgradeFigure(int.Parse(num)-1, (decimal)coef);
+            bool flagUpgrade = logic.UpgradeFigure(figure.Id, (decimal)coef);
             if (flagUpgrade)
             {
                 Console.WriteLine("Улучшение прошло успешно!");
@@ -415,12 +455,26 @@ namespace ConsoleApp
             string groupValue = "Сброс";
             while (!exit)
             {
+                if (logic.ReadBalance()==0  && logic.ReadFigures().Count == 0)
+                {
+                    exit = true;
+                }
                 Menu(groupValue);
                 string answer = Console.ReadLine().ToLower();
                 switch (answer)
                 {
                     case "1":
-                        AddFigureMenu();
+                        if (logic.ReadBalance()==0)
+                        {
+                            Console.Clear();
+                            Console.WriteLine("У вас нет денег");
+                            Thread.Sleep(2000);
+                            break;
+                        }
+                        else
+                        {
+                            AddFigureMenu();
+                        }
                         break;
                     case "2":
                         if (logic.ReadFigures().Count == 0)

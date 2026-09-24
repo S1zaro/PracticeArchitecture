@@ -13,7 +13,7 @@ namespace Model
         private string[] GroupList = new string[] {"", "Серия", "Персонаж" };
 
         private static Random rnd = new Random();
-        private decimal Balance = 1000;
+        private decimal Balance = 1;
 
         /// <summary>
         /// Метод возращающий список всех фигурок
@@ -52,6 +52,10 @@ namespace Model
             return GroupList;
         }
 
+        /// <summary>
+        /// Метод для изменения баланса игрока
+        /// </summary>
+        /// <param name="value">значение на которое изменяется баланс</param>
         public void ChangeBalance(decimal value)
         {
             Balance += value;
@@ -67,7 +71,7 @@ namespace Model
         /// <param name="price">Цена</param>
         public void FigureAdd(string name, string universe, string series, string character)
         {
-            decimal price = rnd.Next(1, (int)Balance+1);
+            decimal price = rnd.Next(1, (int)Balance/2+1);
             if (Figures.All(figure => figure.Name != name))
             {
                 if (Figures.Count == 0)
@@ -114,7 +118,7 @@ namespace Model
         /// <param name="newPrice">Новая цена фигурки</param>
         public void FigureUpdate(int Id, string newName, string newUniverse, string newSeries, string newCharacter, decimal newPrice)
         {
-            Figure figureUpdate = Figures[Id-1];
+            Figure figureUpdate = Figures.Find(i => i.Id == Id);
             if (Figures.Any(figure => figure.Name == newName && figureUpdate.Name != newName))
             {
                 throw new ArgumentException();
@@ -173,15 +177,23 @@ namespace Model
             return Figures.GroupBy(i => i.Universe).ToDictionary(k => k.Key, k => k.Sum(s => s.Price));
         }
 
+
+        /// <summary>
+        /// Метод улучшающий цену фигурки
+        /// </summary>
+        /// <param name="id">ID фигурки</param>
+        /// <param name="coef">коэффицент улучшения цены</param>
+        /// <returns>результат улучшения(выигрыш,проигрыш)</returns>
         public bool UpgradeFigure(int id, decimal coef)
         {
             if ((decimal)rnd.NextDouble() <= (decimal)0.85/coef) {
-                FigureUpdate(Figures[id].Id, null, null, null, null, Figures[id].Price * coef);
+                Figure figureUpgrade = Figures.Find(i => i.Id == id);
+                FigureUpdate(id, null, null, null, null, figureUpgrade.Price * coef);
                 return true;
             }
             else
             {
-                FigureRemove(id+1);
+                FigureRemove(id);
                 return false;
             }
         }
