@@ -13,7 +13,7 @@ namespace Model
         private string[] GroupList = new string[] {"", "Серия", "Персонаж" };
 
         private static Random rnd = new Random();
-        private decimal Balance = 1;
+        private decimal Balance = 1000;
 
         /// <summary>
         /// Метод возращающий список всех фигурок
@@ -131,15 +131,15 @@ namespace Model
             {
                 figureUpdate.Name = newName;
             }
-            if (newUniverse != null)
+            if (newUniverse != null && newUniverse != figureUpdate.Universe)
             {
                 figureUpdate.Universe = newUniverse;
             }
-            if (newSeries != null)
+            if (newSeries != null && newSeries != figureUpdate.Series)
             {
                 figureUpdate.Series = newSeries;
             }
-            if (newCharacter != null)
+            if (newCharacter != null && newCharacter != figureUpdate.Character)
             {
                 figureUpdate.Character = newCharacter;
             }

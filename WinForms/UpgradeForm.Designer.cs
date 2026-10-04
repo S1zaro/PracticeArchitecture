@@ -37,7 +37,7 @@
             PriceColumn = new ColumnHeader();
             CoefBox = new NumericUpDown();
             UpgradeButton = new Button();
-            label1 = new Label();
+            CoefLabel = new Label();
             PriceUpBox = new TextBox();
             ChanceBar = new ProgressBar();
             ((System.ComponentModel.ISupportInitialize)CoefBox).BeginInit();
@@ -114,14 +114,14 @@
             UpgradeButton.UseVisualStyleBackColor = true;
             UpgradeButton.Click += UpgradeButton_Click;
             // 
-            // label1
+            // CoefLabel
             // 
-            label1.AutoSize = true;
-            label1.Location = new Point(240, 425);
-            label1.Name = "label1";
-            label1.Size = new Size(93, 20);
-            label1.TabIndex = 4;
-            label1.Text = "Множитель:";
+            CoefLabel.AutoSize = true;
+            CoefLabel.Location = new Point(240, 425);
+            CoefLabel.Name = "CoefLabel";
+            CoefLabel.Size = new Size(93, 20);
+            CoefLabel.TabIndex = 4;
+            CoefLabel.Text = "Множитель:";
             // 
             // PriceUpBox
             // 
@@ -146,7 +146,7 @@
             ClientSize = new Size(643, 571);
             Controls.Add(ChanceBar);
             Controls.Add(PriceUpBox);
-            Controls.Add(label1);
+            Controls.Add(CoefLabel);
             Controls.Add(UpgradeButton);
             Controls.Add(CoefBox);
             Controls.Add(ListUpgradeFigure);
@@ -168,7 +168,7 @@
         private ColumnHeader PriceColumn;
         private NumericUpDown CoefBox;
         private Button UpgradeButton;
-        private Label label1;
+        private Label CoefLabel;
         private TextBox PriceUpBox;
         private ProgressBar ChanceBar;
     }
