@@ -17,7 +17,7 @@ namespace BusinessLogic
         
 
         private static Random rnd = new Random();
-        private decimal Balance = 1000;
+        
 
         /// <summary>
         /// Метод возращающий список всех фигурок
@@ -29,14 +29,7 @@ namespace BusinessLogic
             
         }
 
-        /// <summary>
-        /// Метод возращающий баланс пользователя
-        /// </summary>
-        /// <returns>баланс</returns>
-        public decimal ReadBalance()
-        {
-            return Balance;
-        }
+        
 
         /// <summary>
         /// Метод возвращающий список доступных вселенных
@@ -56,14 +49,7 @@ namespace BusinessLogic
             return GroupList;
         }
 
-        /// <summary>
-        /// Метод для изменения баланса игрока
-        /// </summary>
-        /// <param name="value">значение на которое изменяется баланс</param>
-        public void ChangeBalance(decimal value)
-        {
-            Balance += value;
-        }
+        
 
         /// <summary>
         /// Метод добавления новых фигурок
@@ -75,7 +61,7 @@ namespace BusinessLogic
         /// <param name="price">Цена</param>
         public void FigureAdd(string name, string universe, string series, string character)
         {
-            decimal price = rnd.Next(1, (int)Balance/2+1);
+            decimal price = rnd.Next(1, 1001);
             List<Figure> Figures = repository.ReadAll().ToList();
             if (Figures.All(figure => figure.Name != name))
             {

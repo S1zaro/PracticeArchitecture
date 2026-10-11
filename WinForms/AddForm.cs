@@ -32,7 +32,7 @@ namespace WinForms
                 try
                 {
                     logic.FigureAdd(NameBox.Text, UniverseBox.Text, SeriesBox.Text, CharacterBox.Text);
-                    logic.ChangeBalance(-logic.ReadFigures().Last().Price);
+                    
                     this.Close();
 
                 }

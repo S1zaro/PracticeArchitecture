@@ -17,7 +17,7 @@ namespace WinForms
 
         private void UpdateMainForm()
         {
-            BalanceBox.Text = logic.ReadBalance().ToString() + "$";
+            
             Dictionary<string, decimal> sumList = logic.SumCollectionFigure();
             if (sumList.ContainsKey("Marvel"))
             {
@@ -93,16 +93,9 @@ namespace WinForms
         }
         private void CreateButton_Click(object sender, EventArgs e)
         {
-            if (logic.ReadBalance() == 0)
-            {
-                MessageBox.Show("У вас не осталось денег на покупку фигурок");
-            }
-            else
-            {
-                AddForm form = new AddForm(logic);
-                form.ShowDialog();
-                UpdateMainForm();
-            }
+            AddForm form = new AddForm(logic);
+            form.ShowDialog();
+            UpdateMainForm();
 
         }
 
@@ -116,7 +109,6 @@ namespace WinForms
                     if (item is Figure figure)
                     {
                         logic.FigureRemove(figure.Id);
-                        logic.ChangeBalance(figure.Price);
                     }
                 }
             }

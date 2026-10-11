@@ -53,7 +53,6 @@ namespace ConsoleApp
             Console.Clear();
             Console.WriteLine("Приложение с коллекционными фигурками");
             Console.WriteLine("=====================================");
-            Console.WriteLine($"Ваш баланс - {logic.ReadBalance()}$");
             Console.Write("Сгруппировать фигурки: ");
             if (groupText == "Серия")
             {
@@ -154,7 +153,6 @@ namespace ConsoleApp
                 try
                 {
                     logic.FigureAdd(name, universe, series, character);
-                    logic.ChangeBalance(-logic.ReadFigures().Last().Price);
                     errorFlag = true;
                 }
                 catch (ArgumentException)
@@ -189,7 +187,7 @@ namespace ConsoleApp
                         num = Console.ReadLine();
                         figure = logic.ReadFigures().Find(i => i.Id == int.Parse(num));
                     }
-                    logic.ChangeBalance(figure.Price);
+                    
                     logic.FigureRemove(figure.Id);
                     flag = false;
                 }
@@ -456,26 +454,13 @@ namespace ConsoleApp
             string groupValue = "Сброс";
             while (!exit)
             {
-                if (logic.ReadBalance()==0  && logic.ReadFigures().Count == 0)
-                {
-                    exit = true;
-                }
+                
                 Menu(groupValue);
                 string answer = Console.ReadLine().ToLower();
                 switch (answer)
                 {
                     case "1":
-                        if (logic.ReadBalance()==0)
-                        {
-                            Console.Clear();
-                            Console.WriteLine("У вас нет денег");
-                            Thread.Sleep(2000);
-                            break;
-                        }
-                        else
-                        {
-                            AddFigureMenu();
-                        }
+                        AddFigureMenu();
                         break;
                     case "2":
                         if (logic.ReadFigures().Count == 0)
