@@ -10,7 +10,7 @@ using System.Data.SqlClient;
 
 namespace DataAccessLayer
 {
-    internal class DapperRepository<T> : IRepository<T> where T: IDomainObject
+    public class DapperRepository<T> : IRepository<T> where T: IDomainObject
     {
         private string connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\jarri\\source\\repos\\Model\\DataAccessLayer\\Database1.mdf;Integrated Security=True";
         public void Create(T obj) 
@@ -21,7 +21,7 @@ namespace DataAccessLayer
                 string propValues = string.Join(",", properties.Select(i => "@" + i.Name));
                 string propString = string.Join(",", properties.Select(i => i.Name));
                 string str = $"INSERT INTO {typeof(T).Name + "s"} ({propString}) VALUES({propValues})";
-                db.Execute(str);
+                db.Execute(str,obj);
             }
             
         }
@@ -33,7 +33,7 @@ namespace DataAccessLayer
                 var properties = typeof(T).GetProperties().Where(i => i.Name != "Id");
                 string updateString = string.Join(",", properties.Select(i => i.Name + "=" + "@" + i.Name));
                 string str = $"UPDATE {typeof(T).Name + "s"} SET {updateString} WHERE Id = {obj.Id}";
-                db.Execute(str);
+                db.Execute(str, obj);
             }
         }
 
@@ -61,7 +61,7 @@ namespace DataAccessLayer
             T model;
             using (IDbConnection db = new SqlConnection(connectionString))
             {
-                model = db.Query<T>($"SELECT * FROM {typeof(T) + "s"} WHERE Id = {id}").FirstOrDefault();
+                model = db.Query<T>($"SELECT * FROM {typeof(T).Name + "s"} WHERE Id = {id}").FirstOrDefault();
             }
             return model;
         }

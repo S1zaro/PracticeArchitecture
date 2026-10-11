@@ -20,7 +20,10 @@ namespace Model
         public decimal Price { get; set; }
 
         
-        
+        public Figure()
+        {
+
+        }
        
         public Figure(int id, string name, string universe, string series, string character, decimal price)
         {

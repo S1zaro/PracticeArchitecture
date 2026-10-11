@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DataAccessLayer
 {
-    internal interface IRepository<T> where T : IDomainObject
+    public interface IRepository<T> where T : IDomainObject
     {
         void Create(T obj);
 

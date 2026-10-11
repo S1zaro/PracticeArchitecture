@@ -2,15 +2,19 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks; 
+using System.Threading.Tasks;
+using Model;
+using DataAccessLayer;
 
-namespace Model
+namespace BusinessLogic
 {
     public class Logic
     {
-        private List<Figure> Figures = new List<Figure>();
+        private IRepository<Figure> repository = new DapperRepository<Figure>();
         private string[] GroupUniverseList = new string[] { "All", "Marvel", "DC", "Anime", "Game" };
         private string[] GroupList = new string[] {"", "Серия", "Персонаж" };
+
+        
 
         private static Random rnd = new Random();
         private decimal Balance = 1000;
@@ -21,7 +25,7 @@ namespace Model
         /// <returns>список фигурок</returns>
         public List<Figure> ReadFigures()
         {
-            return Figures;
+            return repository.ReadAll().ToList();
             
         }
 
@@ -72,22 +76,28 @@ namespace Model
         public void FigureAdd(string name, string universe, string series, string character)
         {
             decimal price = rnd.Next(1, (int)Balance/2+1);
+            List<Figure> Figures = repository.ReadAll().ToList();
             if (Figures.All(figure => figure.Name != name))
             {
                 if (Figures.Count == 0)
                 {
-                    Figures.Add(new Figure(1, name, universe, series, character, price));
+                    Figure obj = new Figure(1, name, universe, series, character, price);
+                    repository.Create(obj);
                     
-
                 }
                 else
                 {
-                    Figures.Add(new Figure(Figures.Max(i => i.Id) + 1, name, universe, series, character, price));
+                    Figure obj = new Figure(Figures.Max(i => i.Id) + 1, name, universe, series, character, price);
+                    repository.Create(obj);
                     
                 }
+
                 
             }
             else { throw new ArgumentException(); }
+
+
+
         }
 
 
@@ -97,14 +107,16 @@ namespace Model
         /// <param name="number">Id фигурки</param>
         public void FigureRemove(int number)
         {
-            Figure figureToRemove = Figures.Find(i => i.Id == number);
+            Figure figureToRemove = repository.ReadById(number);
             if (figureToRemove != null) {
-                Figures.Remove(figureToRemove);
+                repository.Delete(figureToRemove);
             }
             else
             {
                 throw new ArgumentException();
             }
+
+            
         }
 
         /// <summary>
@@ -118,8 +130,9 @@ namespace Model
         /// <param name="newPrice">Новая цена фигурки</param>
         public void FigureUpdate(int Id, string newName, string newUniverse, string newSeries, string newCharacter, decimal newPrice)
         {
-            Figure figureUpdate = Figures.Find(i => i.Id == Id);
-            if (Figures.Any(figure => figure.Name == newName && figureUpdate.Name != newName))
+            
+            Figure figureUpdate = repository.ReadById(Id);
+            if (repository.ReadAll().ToList().Any(figure => figure.Name == newName && figureUpdate.Name != newName))
             {
                 throw new ArgumentException();
             }
@@ -147,6 +160,7 @@ namespace Model
             {
                 figureUpdate.Price = newPrice;
             }
+            repository.Update(figureUpdate);
         }
 
 
@@ -157,6 +171,7 @@ namespace Model
         /// <returns>Словарь с группами</returns>
         public Dictionary<string,List<Figure>> GroupFigure(string groupValue)
         {
+            List<Figure> Figures = repository.ReadAll().ToList();
             switch (groupValue) 
             {
                 case "Серия":
@@ -174,7 +189,7 @@ namespace Model
         /// <returns>словарь с стоимостью фигурок по вселенным</returns>
         public Dictionary<string, decimal> SumCollectionFigure()
         {
-            return Figures.GroupBy(i => i.Universe).ToDictionary(k => k.Key, k => k.Sum(s => s.Price));
+            return repository.ReadAll().ToList().GroupBy(i => i.Universe).ToDictionary(k => k.Key, k => k.Sum(s => s.Price));
         }
 
 
@@ -187,7 +202,7 @@ namespace Model
         public bool UpgradeFigure(int id, decimal coef)
         {
             if ((decimal)rnd.NextDouble() <= (decimal)0.85/coef) {
-                Figure figureUpgrade = Figures.Find(i => i.Id == id);
+                Figure figureUpgrade = repository.ReadById(id);
                 FigureUpdate(id, null, null, null, null, figureUpgrade.Price * coef);
                 return true;
             }
@@ -197,5 +212,7 @@ namespace Model
                 return false;
             }
         }
+
+        
     }
 }

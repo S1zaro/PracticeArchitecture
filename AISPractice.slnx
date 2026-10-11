@@ -1,4 +1,5 @@
 <Solution>
+  <Project Path="BusinessLogic/BusinessLogic.csproj" Id="7a7d6216-b134-4fa7-801e-2bf226688b11" />
   <Project Path="ConsoleApp/ConsoleApp.csproj" Id="e89b3afd-ae25-430e-a7c4-f3db74dd7911" />
   <Project Path="DataAccessLayer/DataAccessLayer.csproj" Id="bd98b14b-06f5-4a6f-a83f-acce80239ca8" />
   <Project Path="Model/Model.csproj" Id="4cdf526a-ca5e-4363-bd22-1255bdbb15b0" />
